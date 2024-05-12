@@ -18,11 +18,19 @@ public class JwtUtils {
 
     private final SecretKey key;
     private static final Long EXPIRATION_TIME = 86400000L;
-    public JwtUtils(){
+    public JwtUtils() {
         String secretKey = System.getenv("JWT_SECRET");
-        byte[] keyBytes = Base64.getDecoder().decode(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.key = new SecretKeySpec(keyBytes,"HmacSHA256");
+        if (secretKey == null || secretKey.trim().isEmpty()) {
+            throw new IllegalStateException("JWT_SECRET is not set or is empty");
+        }
+        try {
+            byte[] keyBytes = Base64.getDecoder().decode(secretKey.getBytes(StandardCharsets.UTF_8));
+            this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("JWT_SECRET is not properly base64 encoded", e);
+        }
     }
+
 
     public String generateToken(UserDetails userDetails){
         return Jwts.builder()
