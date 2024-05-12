@@ -1,9 +1,9 @@
-package com.kotobi.demo.user_managment.dto;
+package com.kotobi.app.user_managment.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kotobi.demo.user_managment.entity.Role;
-import com.kotobi.demo.user_managment.entity.User;
+import com.kotobi.app.user_managment.entity.Role;
+import com.kotobi.app.user_managment.entity.User;
 import lombok.Data;
 
 import java.util.List;

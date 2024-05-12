@@ -1,4 +1,4 @@
-package com.kotobi.demo;
+package com.kotobi.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.kotobi.demo.user_managment.entity;
+package com.kotobi.app.user_managment.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
