@@ -33,16 +33,21 @@ public class UserManagmentService {
         try {
 
             User user = new User();
-            user.setEmail(registrationRequest.getEmail());
-            user.setFirst_name(registrationRequest.getFirst_name());
-            user.setLast_name(registrationRequest.getLast_name());
-            user.setRole(registrationRequest.getRole());
-            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-            User userResult = userRepository.save(user);
-            if(userResult.getId() != null){
-                response.setUser(userResult);
-                response.setMessage("User Created Successfully!");
-                response.setStatusCode(200);
+            if(userRepository.findByEmail(registrationRequest.getEmail()).isPresent()){
+                response.setMessage("User Already Exists");
+                response.setStatusCode(500);
+            }else {
+                user.setEmail(registrationRequest.getEmail());
+                user.setFirst_name(registrationRequest.getFirst_name());
+                user.setLast_name(registrationRequest.getLast_name());
+                user.setRole(registrationRequest.getRole());
+                user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+                User userResult = userRepository.save(user);
+                if (userResult.getId() != null) {
+                    response.setUser(userResult);
+                    response.setMessage("User Created Successfully!");
+                    response.setStatusCode(200);
+                }
             }
 
         }catch (Exception e){
