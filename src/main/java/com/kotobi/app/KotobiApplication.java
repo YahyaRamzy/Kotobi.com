@@ -1,13 +1,13 @@
-package com.kotobi.demo;
+package com.kotobi.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
-
+public class KotobiApplication {
+	private String newUser;
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(KotobiApplication.class, args);
 	}
 
 }
