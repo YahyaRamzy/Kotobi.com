@@ -15,8 +15,7 @@ import java.util.UUID;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
     private String title;
     private String author;
     @Column(unique = true)
@@ -29,4 +28,7 @@ public class Book {
     private String cover_image;
     private String summary;
 
+    public Book(String title) {
+        this.title = title;
+    }
 }
