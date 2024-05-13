@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: root  # You should change this
+    ports:
+      - "5432:5432"
+    restart: always
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "28017:27017"
+    command: mongod --port 27017
+    restart: always
+
+volumes:
+  postgres_data:
+  mongo_data:
