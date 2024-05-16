@@ -29,11 +29,6 @@ public class Book {
     private String cover_image;
     private String summary;
 
-    public Book(String title, int ISBN){
-        this.title = title;
-        this.ISBN = ISBN;
-
-    }
 
 
 }
