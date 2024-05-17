@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface BookRepository extends MongoRepository<Book, String> {
 
     Optional<Book> findBookByISBN(int ISBN);
+    void removeBookByISBN(int ISBN);
 
 
 
