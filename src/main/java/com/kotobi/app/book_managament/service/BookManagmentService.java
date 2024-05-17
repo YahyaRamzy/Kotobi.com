@@ -21,4 +21,13 @@ public class BookManagmentService {
         }
     }
 
+    public void removeBook(int ISBN){
+        if(bookRepository.findBookByISBN(ISBN).isPresent()){
+            bookRepository.removeBookByISBN(ISBN);
+            System.out.println("Book " + ISBN + " was removed!");
+        }else{
+            throw new IllegalStateException("Book is not present!");
+        }
+    }
+
 }
