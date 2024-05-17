@@ -1,12 +1,14 @@
 package com.kotobi.app.book_managament.service;
 
 import com.kotobi.app.book_managament.entity.Book;
+import com.kotobi.app.book_managament.entity.Genre;
 import com.kotobi.app.book_managament.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -34,5 +36,13 @@ public class BookManagmentService {
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    public Optional<List<Book>> getBooksByTitleSearchRegex(String regex){
+        return bookRepository.findBooksByTitleRegex(regex);
+    }
+
+    public Optional<List<Book>> getBooksByGenre(Genre genre){
+        return bookRepository.findBooksByGenre(genre);
     }
 }
