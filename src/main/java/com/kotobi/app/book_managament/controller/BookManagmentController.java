@@ -5,10 +5,19 @@ import com.kotobi.app.book_managament.service.BookManagmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class BookManagmentController {
     @Autowired
     BookManagmentService bookManagmentService;
+
+
+    @GetMapping({"/public/book"})
+    public List<Book> getAllBooks(){
+        return bookManagmentService.getAllBooks();
+    }
+
 
     @PostMapping("/admin/book/addBook")
     public void addBook(@RequestBody Book book){
