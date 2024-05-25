@@ -27,4 +27,24 @@ public class RequestResponse {
     private User user;
     private List<User> UserList;
 
+    // Seller-specific fields
+    private String businessName;
+    private String businessAddress;
+    private String businessPhoneNumber;
+    private String websiteUrl;
+    private String taxId;
+    private String businessLicenseNumber;
+    private boolean approved;
+
+    // Add a method to set seller-specific fields
+    public void setSellerDetails(SellerDto sellerDto) {
+        this.businessName = sellerDto.getBusinessName();
+        this.businessAddress = sellerDto.getBusinessAddress();
+        this.businessPhoneNumber = sellerDto.getBusinessPhoneNumber();
+        this.websiteUrl = sellerDto.getWebsiteUrl();
+        this.taxId = sellerDto.getTaxId();
+        this.businessLicenseNumber = sellerDto.getBusinessLicenseNumber();
+        this.approved = sellerDto.isApproved();
+    }
+
 }

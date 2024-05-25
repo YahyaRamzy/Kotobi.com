@@ -1,7 +1,11 @@
 package com.kotobi.app.user_managment.service;
 
 import com.kotobi.app.user_managment.dto.RequestResponse;
+import com.kotobi.app.user_managment.dto.SellerDto;
+import com.kotobi.app.user_managment.entity.Role;
+import com.kotobi.app.user_managment.entity.Seller;
 import com.kotobi.app.user_managment.entity.User;
+import com.kotobi.app.user_managment.repository.SellerRepository;
 import com.kotobi.app.user_managment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +23,8 @@ public class UserManagmentService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SellerRepository sellerRepository;
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
@@ -56,7 +62,52 @@ public class UserManagmentService {
         }
         return response;
     }
+    public RequestResponse registerSeller(SellerDto sellerDto) {
+        RequestResponse response = new RequestResponse();
 
+        try {
+            if (userRepository.findByEmail(sellerDto.getEmail()).isPresent()) {
+                response.setMessage("Seller Already Exists");
+                response.setStatusCode(500);
+            } else {
+                User user = new User();
+                user.setEmail(sellerDto.getEmail());
+                user.setFirst_name(sellerDto.getFirstName());
+                user.setLast_name(sellerDto.getLastName());
+                user.setRole(Role.SELLER);
+                user.setPassword(passwordEncoder.encode(sellerDto.getPassword()));
+
+                Seller seller = createSeller(sellerDto, user);
+
+                user.setSeller(seller);
+
+                userRepository.save(user);
+                sellerRepository.save(seller);
+
+                response.setUser(user);
+                response.setSellerDetails(sellerDto);
+                response.setMessage("Seller Registered Successfully, Pending Approval!");
+                response.setStatusCode(200);
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    private static Seller createSeller(SellerDto sellerDto, User user) {
+        Seller seller = new Seller();
+        seller.setBusinessName(sellerDto.getBusinessName());
+        seller.setBusinessAddress(sellerDto.getBusinessAddress());
+        seller.setBusinessPhoneNumber(sellerDto.getBusinessPhoneNumber());
+        seller.setWebsiteUrl(sellerDto.getWebsiteUrl());
+        seller.setTaxId(sellerDto.getTaxId());
+        seller.setBusinessLicenseNumber(sellerDto.getBusinessLicenseNumber());
+        seller.setApproved(false); // Default to false, requires admin approval
+        seller.setUser(user);
+        return seller;
+    }
 
     public RequestResponse loginUser(RequestResponse loginRequest){
         RequestResponse response = new RequestResponse();

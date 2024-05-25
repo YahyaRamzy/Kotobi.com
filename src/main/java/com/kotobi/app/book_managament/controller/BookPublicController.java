@@ -23,12 +23,12 @@ public class BookPublicController {
         return bookManagmentService.getAllBooks();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/title")
     public Optional<List<Book>> searchByBookTitleRegex(@RequestParam String title){
         return bookManagmentService.getBooksByTitleSearchRegex(title);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/genre")
     public Optional<List<Book>> searchByBookGenre(@RequestParam Genre genre){
         return bookManagmentService.getBooksByGenre(genre);
     }
