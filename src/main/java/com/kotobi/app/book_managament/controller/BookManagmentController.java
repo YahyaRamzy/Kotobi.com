@@ -15,12 +15,6 @@ public class BookManagmentController {
     BookManagmentService bookManagmentService;
 
 
-    @GetMapping({"/public/book"})
-    public List<Book> getAllBooks(){
-        return bookManagmentService.getAllBooks();
-    }
-
-
     @PostMapping("/admin/book/addBook")
     public void addBook(@RequestBody Book book){
         System.out.println(book);
@@ -32,13 +26,5 @@ public class BookManagmentController {
         bookManagmentService.removeBook(isbn);
     }
 
-    @GetMapping("/public/search")
-    public Optional<List<Book>> searchByBookTitleRegex(@RequestParam String title){
-        return bookManagmentService.getBooksByTitleSearchRegex(title);
-    }
 
-    @GetMapping("/public/search/genre")
-    public Optional<List<Book>> searchByBookGenre(@RequestParam Genre genre){
-        return bookManagmentService.getBooksByGenre(genre);
-    }
 }

@@ -45,4 +45,11 @@ public class BookManagmentService {
     public Optional<List<Book>> getBooksByGenre(Genre genre){
         return bookRepository.findBooksByGenre(genre);
     }
+
+    public Optional<List<Book>> getBooksByAuthorRegex(String author){return bookRepository.findBooksByAuthorRegex(author);}
+
+    public Optional<List<Book>> getBooksByLangauge(String lang){return bookRepository.findBooksByLanguage(lang);}
+
+    public Optional<List<Book>> getBooksByPublisher(String publisher){return bookRepository.findBooksByPublisher(publisher);}
+
 }
