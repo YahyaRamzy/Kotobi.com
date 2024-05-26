@@ -8,8 +8,12 @@ import com.kotobi.app.user_managment.entity.User;
 import com.kotobi.app.user_managment.repository.SellerRepository;
 import com.kotobi.app.user_managment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -255,6 +259,19 @@ public class UserManagmentService {
         RequestResponse response = new RequestResponse();
 
         try{
+            // Get the authenticated user's details
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String authenticatedUserEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+
+            // Find the authenticated user by email
+            User authenticatedUser = this.getUserByEmail(authenticatedUserEmail).getUser();
+
+            // Check if the authenticated user is trying to update their own details
+            if (!authenticatedUser.getId().equals(uuid)) {
+                response.setStatusCode(403); // Forbidden
+                response.setMessage("You are not authorized to update another user's details.");
+                return response;
+            }
             Optional<User> userOptional = userRepository.findById(uuid);
             if(userOptional.isPresent()){
 

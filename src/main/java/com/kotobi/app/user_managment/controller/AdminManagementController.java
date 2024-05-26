@@ -26,10 +26,10 @@ public class AdminManagementController {
         return ResponseEntity.ok(userManagmentService.getUserById(userId));
     }
 
-    @PutMapping("users/{userId}")
-    public ResponseEntity<RequestResponse> updateUser(@PathVariable UUID userId , @RequestBody User user){
-        return ResponseEntity.ok(userManagmentService.updateUser(userId,user));
-    }
+//    @PutMapping("users/{userId}")
+//    public ResponseEntity<RequestResponse> updateUser(@PathVariable UUID userId , @RequestBody User user){
+//        return ResponseEntity.ok(userManagmentService.updateUser(userId,user));
+//    }
 
     @DeleteMapping("users/{userId}")
     public ResponseEntity<RequestResponse> deleteUser(@PathVariable UUID userId){
