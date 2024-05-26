@@ -1,6 +1,7 @@
 package com.kotobi.app.user_managment.service;
 
 import com.kotobi.app.user_managment.dto.RequestResponse;
+import com.kotobi.app.user_managment.dto.SellerDto;
 import com.kotobi.app.user_managment.entity.Seller;
 import com.kotobi.app.user_managment.entity.User;
 import com.kotobi.app.user_managment.repository.SellerRepository;
@@ -77,7 +78,7 @@ public class SellerManagementService {
         }
         return response;
     }
-    public RequestResponse updateSeller(UUID uuid, Seller updatedSeller) {
+    public RequestResponse updateSeller(UUID uuid, SellerDto updatedSeller) {
         RequestResponse response = new RequestResponse();
 
         try {
