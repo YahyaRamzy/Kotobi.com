@@ -1,7 +1,7 @@
 package com.kotobi.app.user_managment.config;
 
-import com.kotobi.app.user_managment.service.JwtUtils;
-import com.kotobi.app.user_managment.service._UserDetailsService;
+import com.kotobi.app.user_managment.service.Utils.JwtUtils;
+import com.kotobi.app.user_managment.service.Utils._UserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

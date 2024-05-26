@@ -1,4 +1,4 @@
-package com.kotobi.app.user_managment.service;
+package com.kotobi.app.user_managment.service.Utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
