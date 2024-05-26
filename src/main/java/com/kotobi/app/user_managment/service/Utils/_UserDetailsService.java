@@ -1,4 +1,4 @@
-package com.kotobi.app.user_managment.service;
+package com.kotobi.app.user_managment.service.Utils;
 
 import com.kotobi.app.user_managment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
