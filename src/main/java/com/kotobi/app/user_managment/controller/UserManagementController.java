@@ -15,9 +15,14 @@ public class UserManagementController {
 
     @Autowired
     private UserManagementService userManagmentService;
-    @PutMapping("/{userId}")
+    @PutMapping("/updateDetails/{userId}")
     public ResponseEntity<RequestResponse> updateUser(@PathVariable UUID userId, @RequestBody User user) {
         return ResponseEntity.ok(userManagmentService.updateUser(userId, user));
+    }
+
+    @GetMapping("/getMyDetails/{userId}")
+    public ResponseEntity<RequestResponse> getMyDetails(@PathVariable UUID userId) {
+        return ResponseEntity.ok(userManagmentService.getMyUserDetails(userId));
     }
 
 

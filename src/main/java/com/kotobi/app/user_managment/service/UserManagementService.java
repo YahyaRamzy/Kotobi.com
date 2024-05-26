@@ -39,6 +39,40 @@ public class UserManagementService {
         return response;
     }
 
+    public RequestResponse getMyUserDetails(UUID uuid){
+        RequestResponse response = new RequestResponse();
+
+        try{
+            // Get the authenticated user's details
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String authenticatedUserEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+
+            // Find the authenticated user by email
+            User authenticatedUser = this.getUserByEmail(authenticatedUserEmail).getUser();
+
+            // Check if the authenticated user is trying to update their own details
+            if (!authenticatedUser.getId().equals(uuid)) {
+                response.setStatusCode(403); // Forbidden
+                response.setMessage("You are not authorized to update another user's details.");
+                return response;
+            }
+            Optional<User> userOptional = userRepository.findById(uuid);
+            if(userOptional.isPresent()){
+                response.setUser(authenticatedUser);
+                response.setStatusCode(200);
+                response.setMessage("User Retrieved!");
+            }else{
+                response.setStatusCode(500);
+                response.setMessage("Error User is not present!");
+            }
+
+        }catch (Exception e){
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving user: " + e.getMessage());
+        }
+        return response;
+    }
+
     public RequestResponse updateUser(UUID uuid , User updatedUser){
         RequestResponse response = new RequestResponse();
 
