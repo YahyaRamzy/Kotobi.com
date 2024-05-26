@@ -109,6 +109,39 @@ public class UserManagmentService {
         return seller;
     }
 
+    public RequestResponse approveSeller(UUID sellerId){
+        RequestResponse response = new RequestResponse();
+        try {
+            Seller seller = sellerRepository.findById(sellerId).orElseThrow(()-> new RuntimeException("Seller Not Found!"));
+            seller.setApproved(true);
+            sellerRepository.save(seller);
+            response.setStatusCode(200);
+            response.setMessage("Seller :  "+ seller.getBusinessName() +" ID : "+ sellerId + " approved !" );
+
+        }catch (Exception e){
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
+    public RequestResponse rejectSeller(UUID sellerId){
+        RequestResponse response = new RequestResponse();
+        try {
+            Seller seller = sellerRepository.findById(sellerId).orElseThrow(()-> new RuntimeException("Seller Not Found!"));
+            User user = seller.getUser();
+            sellerRepository.delete(seller);
+            userRepository.delete(user);
+            response.setStatusCode(200);
+            response.setMessage("Seller :  "+ seller.getBusinessName() +" ID : "+ sellerId + " not approved DELETED !" );
+
+        }catch (Exception e){
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
     public RequestResponse loginUser(RequestResponse loginRequest){
         RequestResponse response = new RequestResponse();
 
@@ -118,6 +151,16 @@ public class UserManagmentService {
                     .authenticate(new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
                             loginRequest.getPassword()));
+
+            // Find the user by email
+            User seller = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+
+            // Check if the user is a seller and not approved
+            if (seller.getRole() == Role.SELLER && seller.getSeller() != null && !seller.getSeller().isApproved()) {
+                response.setStatusCode(403); // Forbidden status
+                response.setMessage("Seller not approved yet.");
+                return response;
+            }
 
             var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
             var jwt = jwtUtils.generateToken(user);

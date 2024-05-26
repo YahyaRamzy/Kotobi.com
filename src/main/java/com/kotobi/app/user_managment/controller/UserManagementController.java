@@ -17,45 +17,8 @@ public class UserManagementController {
     private UserManagmentService userManagmentService;
 
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<RequestResponse> register(@RequestBody RequestResponse registerRequest){
-        return ResponseEntity.ok(userManagmentService.registerUser(registerRequest));
-    }
 
-    @PostMapping("/auth/registerSeller")
-    public ResponseEntity<RequestResponse> registerSeller(@RequestBody SellerDto sellerDto){
-        return ResponseEntity.ok(userManagmentService.registerSeller(sellerDto));
-    }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<RequestResponse> login(@RequestBody RequestResponse loginRequest){
-        return ResponseEntity.ok(userManagmentService.loginUser(loginRequest));
-    }
-
-    @PostMapping("/auth/refresh")
-    public ResponseEntity<RequestResponse> refreshToken(@RequestBody RequestResponse refreshRequest){
-        return ResponseEntity.ok(userManagmentService.refreshToken(refreshRequest));
-    }
-
-    @GetMapping("/admin/users/get-all-users")
-    public ResponseEntity<RequestResponse> getAllUsers(){
-        return ResponseEntity.ok(userManagmentService.getAllUsers());
-    }
-
-    @GetMapping("/admin/users/{userId}")
-    public ResponseEntity<RequestResponse> getAllUsers(@PathVariable UUID userId){
-        return ResponseEntity.ok(userManagmentService.getUserById(userId));
-    }
-
-    @PutMapping("/admin/users/{userId}")
-    public ResponseEntity<RequestResponse> updateUser(@PathVariable UUID userId , @RequestBody User user){
-        return ResponseEntity.ok(userManagmentService.updateUser(userId,user));
-    }
-
-    @DeleteMapping("/admin/users/{userId}")
-    public ResponseEntity<RequestResponse> deleteUser(@PathVariable UUID userId){
-        return ResponseEntity.ok(userManagmentService.deleteUser(userId));
-    }
 
 
 }
