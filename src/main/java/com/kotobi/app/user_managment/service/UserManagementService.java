@@ -1,6 +1,7 @@
 package com.kotobi.app.user_managment.service;
 
 import com.kotobi.app.user_managment.dto.RequestResponse;
+import com.kotobi.app.user_managment.dto.UserDto;
 import com.kotobi.app.user_managment.entity.User;
 import com.kotobi.app.user_managment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,19 @@ public class UserManagementService {
             // Check if the authenticated user is trying to update their own details
             if (!authenticatedUser.getId().equals(uuid)) {
                 response.setStatusCode(403); // Forbidden
-                response.setMessage("You are not authorized to update another user's details.");
+                response.setMessage("You are not authorized to view another user's details.");
                 return response;
             }
             Optional<User> userOptional = userRepository.findById(uuid);
+            // Create a UserDto to encapsulate the necessary user details
+            User user = new User();
+            user.setId(authenticatedUser.getId());
+            user.setEmail(authenticatedUser.getEmail());
+            user.setFirst_name(authenticatedUser.getFirst_name());
+            user.setLast_name(authenticatedUser.getLast_name());
+            user.setRole(authenticatedUser.getRole());
             if(userOptional.isPresent()){
-                response.setUser(authenticatedUser);
+                response.setUser(user);
                 response.setStatusCode(200);
                 response.setMessage("User Retrieved!");
             }else{

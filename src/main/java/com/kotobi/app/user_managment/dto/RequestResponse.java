@@ -3,6 +3,7 @@ package com.kotobi.app.user_managment.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kotobi.app.user_managment.entity.Role;
+import com.kotobi.app.user_managment.entity.Seller;
 import com.kotobi.app.user_managment.entity.User;
 import lombok.Data;
 
@@ -45,6 +46,16 @@ public class RequestResponse {
         this.taxId = sellerDto.getTaxId();
         this.businessLicenseNumber = sellerDto.getBusinessLicenseNumber();
         this.approved = sellerDto.isApproved();
+    }
+
+    public void setSellerDetailsforService(Seller seller){
+        this.businessName = seller.getBusinessName();
+        this.businessAddress = seller.getBusinessAddress();
+        this.businessPhoneNumber = seller.getBusinessPhoneNumber();
+        this.websiteUrl = seller.getWebsiteUrl();
+        this.taxId = seller.getTaxId();
+        this.businessLicenseNumber = seller.getBusinessLicenseNumber();
+        this.approved = seller.isApproved();
     }
 
 }

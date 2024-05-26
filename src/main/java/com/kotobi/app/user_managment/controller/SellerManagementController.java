@@ -14,8 +14,12 @@ import java.util.UUID;
 public class SellerManagementController {
     @Autowired
     private SellerManagementService sellerManagementService;
-    @PutMapping("/{sellerID}")
+    @PutMapping("/updateDetails/{sellerID}")
     public ResponseEntity<RequestResponse> updateSeller(@PathVariable UUID sellerID, @RequestBody Seller seller) {
         return ResponseEntity.ok(sellerManagementService.updateSeller(sellerID, seller));
+    }
+    @GetMapping("/getMyDetails/{sellerId}")
+    public ResponseEntity<RequestResponse> getMyDetails(@PathVariable UUID sellerId) {
+        return ResponseEntity.ok(sellerManagementService.getMySellerDetails(sellerId));
     }
 }

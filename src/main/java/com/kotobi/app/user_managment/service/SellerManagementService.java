@@ -35,6 +35,48 @@ public class SellerManagementService {
         }
         return response;
     }
+    public RequestResponse getMySellerDetails(UUID uuid){
+        RequestResponse response = new RequestResponse();
+
+        try{
+            // Get the authenticated user's details
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String authenticatedUserEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+
+            // Find the authenticated user by email
+            User authenticatedUser = this.getUserByEmail(authenticatedUserEmail).getUser();
+
+            // Check if the authenticated user is trying to update their own details
+            if (authenticatedUser.getSeller() == null || !authenticatedUser.getSeller().getId().equals(uuid)) {
+                response.setStatusCode(403); // Forbidden
+                System.out.println(authenticatedUser.getId());
+                response.setMessage("You are not authorized to view another Seller's details.");
+                return response;
+            }
+            Optional<Seller> sellerOptional = sellerRepository.findById(uuid);
+            User user = new User();
+            user.setId(authenticatedUser.getId());
+            user.setEmail(authenticatedUser.getEmail());
+            user.setFirst_name(authenticatedUser.getFirst_name());
+            user.setLast_name(authenticatedUser.getLast_name());
+            user.setSeller(authenticatedUser.getSeller());
+            user.setRole(authenticatedUser.getRole());
+            if(sellerOptional.isPresent()){
+                response.setUser(user);
+                response.setSellerDetailsforService(authenticatedUser.getSeller());
+                response.setStatusCode(200);
+                response.setMessage("User Retrieved!");
+            }else{
+                response.setStatusCode(500);
+                response.setMessage("Error User is not present!");
+            }
+
+        }catch (Exception e){
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving user: " + e.getMessage());
+        }
+        return response;
+    }
     public RequestResponse updateSeller(UUID uuid, Seller updatedSeller) {
         RequestResponse response = new RequestResponse();
 
